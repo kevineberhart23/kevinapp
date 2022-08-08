@@ -93,13 +93,14 @@ async def stats(bot, update):
   cpuUsage = psutil.cpu_percent(interval=0.5)
   memory = psutil.virtual_memory().percent
   disk = psutil.disk_usage('/').percent
-  botstats = f'<b>Bot Uptime:</b> {currentTime}\n' \
-            f'<b>Total disk space:</b> {total}\n' \
-            f'<b>Used:</b> {used}  ' \
-            f'<b>Free:</b> {free}\n\n' \
-            f'📊Data Usage📊\n<b>Upload:</b> {sent}\n' \
-            f'<b>Down:</b> {recv}\n\n' \
-            f'<b>CPU:</b> {cpuUsage}% ' \
-            f'<b>RAM:</b> {memory}% ' \
-            f'<b>Disk:</b> {disk}%'
+  botstats = f'● سرور\n' \
+            f'•  آپتایم: [ {currentTime} ]\n' \
+            f'• حجم هارد سرور: [ {total} ]\n' \
+            f'• فضای استفاده شده: [ {used} ]\n' \
+            f'• فضای باقی مانده: [ {free} ]\n\n' \
+            f'• سرعت آپلود: [ {sent} ]\n' \
+            f'• سرعت دانلود: [ {recv} ]\n' \
+            f'• سی پی یو استفاده شده: [ {cpuUsage}% ]\n' \
+            f'• رم استفاده شده: [ {memory}% ]\n' \
+            f'• فضای استفاده شده: [ {disk}% ]'
   await update.reply_text(botstats)
