@@ -20,27 +20,27 @@ pass_dict = {}
 pass_db = Database(Var.DATABASE_URL, "ag_passwords")
 
 
-@StreamBot.on_message((filters.regex("login🔑") | filters.command("login")) , group=4)
+@StreamBot.on_message((filters.regex("ورود کد اشتراک") | filters.command("login")) , group=4)
 async def login_handler(c: Client, m: Message):
     try:
         try:
-            ag = await m.reply_text("Now send me password.\n\n If You don't know check the MY_PASS Variable in heroku \n\n(You can use /cancel command to cancel the process)")
+            ag = await m.reply_text("● کد اشتراک خریداری شده را وارد کنید.\n\n• کد اشتراک ندارید روی انصراف بزنید:\n/cancel")
             _text = await c.listen(m.chat.id, filters=filters.text, timeout=90)
             if _text.text:
                 textp = _text.text
                 if textp=="/cancel":
-                   await ag.edit("Process Cancelled Successfully")
+                   await ag.edit("با سپاس")
                    return
             else:
                 return
         except TimeoutError:
-            await ag.edit("I can't wait more for password, try again")
+            await ag.edit("کد اشتراک نادرست است")
             return
         if textp == MY_PASS:
             await pass_db.add_user_pass(m.chat.id, textp)
-            ag_text = "yeah! you entered the password correctly"
+            ag_text = "با موفقیت انجام شد"
         else:
-            ag_text = "Wrong password, try again"
+            ag_text = "کد اشتراک نادرست است"
         await ag.edit(ag_text)
     except Exception as e:
         print(e)
@@ -50,7 +50,7 @@ async def private_receive_handler(c: Client, m: Message):
     if MY_PASS:
         check_pass = await pass_db.get_user_pass(m.chat.id)
         if check_pass== None:
-            await m.reply_text("Login first using /login cmd \n don\'t know the pass? request it from the Developer")
+            await m.reply_text("ابتدا باید کد اشتراک را وارد کنید")
             return
         if check_pass != MY_PASS:
             await pass_db.delete_user(m.chat.id)
@@ -67,7 +67,7 @@ async def private_receive_handler(c: Client, m: Message):
             if user.status == "kicked":
                 await c.send_message(
                     chat_id=m.chat.id,
-                    text="__Sᴏʀʀʏ Sɪʀ, Yᴏᴜ ᴀʀᴇ Bᴀɴɴᴇᴅ ᴛᴏ ᴜsᴇ ᴍᴇ.__\n\n  **Cᴏɴᴛᴀᴄᴛ Dᴇᴠᴇʟᴏᴘᴇʀ [@adarsh-goel](https://github.com/adarsh-goel) ʜᴇ Wɪʟʟ Hᴇʟᴘ Yᴏᴜ**",
+                    text="Yᴏᴜ ᴀʀᴇ Bᴀɴɴᴇᴅ ᴛᴏ ᴜsᴇ ᴍᴇ",
                     
                     disable_web_page_preview=True
                 )
@@ -105,25 +105,25 @@ async def private_receive_handler(c: Client, m: Message):
         
 
         msg_text ="""
-<i><u>𝗬𝗼𝘂𝗿 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱 !</u></i>
+• نام فایل: {}
 
-<b>📂 Fɪʟᴇ ɴᴀᴍᴇ :</b> <i>{}</i>
+• حجم فایل: {}
 
-<b>📦 Fɪʟᴇ ꜱɪᴢᴇ :</b> <i>{}</i>
+• دانلود: {}
 
-<b>📥 Dᴏᴡɴʟᴏᴀᴅ :</b> <i>{}</i>
+• تماشا: {}
 
-<b> 🖥WATCH  :</b> <i>{}</i>
+● لینک ها دائمی هستند و منقضی نمی شوند!
 
-<b>🚸 Nᴏᴛᴇ : LINK WON'T EXPIRE TILL I DELETE</b>"""
+➕پیشنهاد می شودبعد از دریافت لینک از نرم افزار IDM جهت دانلود فایل استفاده کنید."""
 
         await log_msg.reply_text(text=f"**RᴇQᴜᴇꜱᴛᴇᴅ ʙʏ :** [{m.from_user.first_name}](tg://user?id={m.from_user.id})\n**Uꜱᴇʀ ɪᴅ :** `{m.from_user.id}`\n**Stream ʟɪɴᴋ :** {stream_link}", disable_web_page_preview=True,  quote=True)
         await m.reply_text(
             text=msg_text.format(get_name(log_msg), humanbytes(get_media_file_size(m)), online_link, stream_link),
             quote=True,
             disable_web_page_preview=True,
-            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🖥STREAM", url=stream_link), #Stream Link
-                                                InlineKeyboardButton('Dᴏᴡɴʟᴏᴀᴅ📥', url=online_link)]]) #Download Link
+            reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton("🖥تماشا", url=stream_link), #Stream Link
+                                                InlineKeyboardButton('دانلود📥', url=online_link)]]) #Download Link
         )
     except FloodWait as e:
         print(f"Sleeping for {str(e.x)}s")
