@@ -77,7 +77,7 @@ async def start(b, m):
     await StreamBot.send_photo(
         chat_id=m.chat.id,
         photo ="https://telegra.ph/file/ca10e459bc6f48a4ad0f7.jpg",
-        caption =f'سلام {m.from_user.mention(style="md")}\nبه ربات تبدیل فایل به لینک مستقیم (به همراه تماشای فایل بعد آپلود) خوش اومدی',
+        caption =f'● کاربر {m.from_user.mention(style="md")} به ربات تبدیل فایل به لینک مستقیم خوش آمدید.\n● فایل خود را جهت تبدیل فایل به لینک مستقیم ارسال کنید.\n● لینک ها دائمی هستند و منقضی نمی شوند!\n➕پیشنهاد می شودبعد از دریافت لینک از نرم افزار IDM جهت دانلود فایل استفاده کنید.',
         reply_markup=buttonz)
 
 
